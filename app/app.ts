@@ -14,7 +14,8 @@ dotenv.config();
 expressConfig(app);
 
 void connectDb(mongoose, coreConfig, {
-    reconnectInterval: 10000,
+    serverSelectionTimeoutMS: 5000,
+    socketTimeoutMS: 45000,
 });
 
 // server config and launch

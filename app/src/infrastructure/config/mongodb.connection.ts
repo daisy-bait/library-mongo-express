@@ -2,7 +2,8 @@ import { Mongoose, ConnectOptions } from "mongoose";
 import coreConfig from "./core.config";
 
 interface MongoOptions extends ConnectOptions {
-  reconnectInterval: number;
+  serverSelectionTimeoutMS: number,
+  socketTimeoutMS: number,
 }
 
 export const connectDb = async (
@@ -11,10 +12,12 @@ export const connectDb = async (
   options: MongoOptions
 ): Promise<void> => {
   try {
-    await client.connect(config.mongo.uri as string, options);
+    await client.connect(config.mongo.uri, options);
     console.info('MONGODB INITIAL CONNETION SUCCESFUL');
   } catch (ex) {
-    console.error('MONGODB CONNECTION ERROR:', ex);
+    console.error('MONGODB INITIAl CONNECTION ERROR:', ex);
+    console.info(`Retrying in  ${(coreConfig.mongo.retryInterval / 1000).toString()}s...`);
+    setTimeout(() => void connectDb(client, config, options), coreConfig.mongo.retryInterval);
   }
 
   client.connection.on('connected', () => {
@@ -31,8 +34,8 @@ export const connectDb = async (
   });
 
   client.connection.on('disconnected', () => {
-    console.error(`MONGODB DISCONNETED... RECONNECTION IN ${(options.reconnectInterval / 1000).toString()}s...`);
-    setTimeout(() => void connectDb(client, config, options), options.reconnectInterval);
+    console.error(`MONGODB DISCONNETED... RECONNECTION IN ${(coreConfig.mongo.retryInterval / 1000).toString()}s...`);
+    setTimeout(() => void connectDb(client, config, options), coreConfig.mongo.retryInterval);
   });
 
 };

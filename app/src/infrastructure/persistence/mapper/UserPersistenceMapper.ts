@@ -4,7 +4,7 @@ import { UserDocument } from "../schema/UserSchema";
 export default class UserPersistenceMapper {
     toEntity(userDocument: UserDocument): UserEntity {
         return new UserEntity({
-            id: userDocument._id,
+            id: userDocument._id.toString(),
             username: userDocument.username,
             password: userDocument.password,
             roles: userDocument.roles
