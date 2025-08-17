@@ -1,8 +1,9 @@
 import Entity from "./entity";
 
 export default class UserEntity extends Entity<UserEntity> {
-    username!: string;
-    password!: string;
+    id!: unknown;
+    username!: string | undefined;
+    password!: string | undefined;
     roles!: string[];
 
 }
