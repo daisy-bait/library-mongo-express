@@ -1,4 +1,4 @@
-import IError from "../../interfaces/errorInterface";
+import IError from "../../common/errorInterface";
 
 export default class ValidationException extends Error implements IError {
     public name = 'ValidationException';
