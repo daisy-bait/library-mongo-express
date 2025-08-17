@@ -1,22 +1,42 @@
 import UserBusinessUseCases from "../../domain/contracts/business/userBusinessUseCases";
+import UserDAO from "../../domain/contracts/persistence/UserDAO";
 import UserEntity from "../../domain/entities/userEntity";
+import NotFoundException from "../../domain/exceptions/notFoundException";
 
 export default class UserBusinessImpl implements UserBusinessUseCases {
+    constructor(private userDAO: UserDAO) { };
 
-    registerUser(userEntity: UserEntity): UserEntity {
-        throw new Error("Method not implemented.");
+    async registerUser(userEntity: UserEntity): Promise<UserEntity> {
+        return this.userDAO.save(userEntity);
     }
-    update(userEntity: UserEntity, userId: string): UserEntity {
-        throw new Error("Method not implemented.");
+
+    async update(userEntity: UserEntity, userId: string): Promise<UserEntity> {
+        if (!userEntity.id) { userEntity.id = userId; }
+        if (userEntity.id !== userId) {
+            throw new Error(`Value Mismatch: Rest User ID → ${userId} isn't equal to Body User ID → ${userEntity.id}`);
+        }
+
+        const userDocument = await this.findAnyUserById(userId);
+
+        userDocument.username = userEntity.username;
+        userDocument.password = userEntity.password;
+
+        return this.userDAO.save(userDocument);
     }
-    findAnyUserById(userId: string): UserEntity {
-        throw new Error("Method not implemented.");
+
+    async findAnyUserById(userId: string): Promise<UserEntity> {
+        const optionalUser = await this.userDAO.selectById(userId);
+        if (!optionalUser) { throw new NotFoundException(); }
+        return optionalUser;
     }
-    findAnyUserByUsername(username: string): UserEntity | null {
-        throw new Error("Method not implemented.");
+
+    async findAnyUserByUsername(username: string): Promise<UserEntity> {
+        const optionalUser = await this.userDAO.selectByUsername(username);
+        if (!optionalUser) { throw new NotFoundException(); }
+        return optionalUser;
     }
-    listAllUsers(): UserEntity[] {
-        throw new Error("Method not implemented.");
+    async listAllUsers(): Promise<UserEntity[]> {
+        return await this.userDAO.selectAll();
     }
 
 }
