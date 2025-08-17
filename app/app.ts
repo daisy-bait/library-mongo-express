@@ -9,7 +9,7 @@ const port = 3000;
 const uri = 'mongodb://mimi:180406@localhost:27017/library?authSource=admin';
 
 app.use(morgan('dev'));
-app.use(express.json())
+app.use(express.json());
 
 app.get('/', (req, res) => {
     res.send('Hello World!');
@@ -42,7 +42,7 @@ app.get('/books/find-all', async (req, res) => {
         console.log('Exception', ex);
         return res.status(500).json({ message: 'Internal Server Error' });
     }
-})
+});
 
 app.post('/authors/create', async (req, res) => {
     try {
@@ -59,7 +59,7 @@ app.post('/authors/create', async (req, res) => {
         });
 
         const save = await author.save();
-        return res.status(201).json({ author: save })
+        return res.status(201).json({ author: save });
     } catch(ex) {
         console.log('Exception', ex);
         return res.status(500).json({ message: 'Internal Server Error', error: ex });
@@ -97,4 +97,4 @@ connectDb(uri)
 app.listen(port, () => {
     console.log(`Server listen on http://localhost:${port}`);
 });
-})
+});
