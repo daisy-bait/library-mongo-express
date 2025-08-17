@@ -16,7 +16,8 @@ export default defineConfig([
       },
     },
     rules: {
-      "semi": ["error", "always"],
+      "semi": "error",
+      "@typescript-eslint/no-extraneous-class": "off",
     },
   },
   tseslint.configs.strictTypeChecked,
