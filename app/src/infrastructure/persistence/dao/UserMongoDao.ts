@@ -1,7 +1,7 @@
 import UserDAO from "../../../domain/contracts/persistence/UserDAO";
 import UserEntity from "../../../domain/entities/userEntity";
 import { userModel } from "../model/UserModel";
-import UserPersistenceMapper from "./mapper/UserPersistenceMapper";
+import UserPersistenceMapper from "../mapper/UserPersistenceMapper";
 
 export default class UserMongoDao implements UserDAO {
     private mapper: UserPersistenceMapper;

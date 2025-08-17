@@ -1,5 +1,5 @@
-import UserEntity from "../../../../domain/entities/userEntity";
-import { UserDocument } from "../../schema/UserSchema";
+import UserEntity from "../../../domain/entities/userEntity";
+import { UserDocument } from "../schema/UserSchema";
 
 export default class UserPersistenceMapper {
     toEntity(userDocument: UserDocument): UserEntity {
