@@ -4,14 +4,19 @@ import UserEntity from "../../domain/entities/userEntity";
 import bcrypt from "bcrypt";
 import coreConfig from "../../infrastructure/config/core.config";
 import BadCredentialsException from "../../domain/exceptions/badCredentialsException";
+import UserDAO from "../../domain/contracts/persistence/UserDAO";
 
 export default class AuthControllerImpl implements UserAuthUseCases {
-    constructor(private readonly userController: UserBusinessUseCases) { }
+    constructor(private readonly userDAO: UserDAO) { }
 
     async login(username: string, password: string): Promise<{ resolvedUsername: string, resolvedPassword: string }> {
-        const userDetails = await this.userController.findAnyUserByUsername(username);
+        const userDetails = await this.userDAO.selectByUsername(username);
 
-        if (!userDetails || this.comparePasswords(password, userDetails.password)) {
+        if (userDetails) {
+            console.log(this.comparePasswords(password, userDetails.password));
+        }
+
+        if (!userDetails || !this.comparePasswords(password, userDetails.password)) {
             throw new BadCredentialsException();
         }
 
