@@ -5,6 +5,7 @@ import { serverConfig } from './src/infrastructure/config/server.config';
 import coreConfig from './src/infrastructure/config/core.config';
 import connectDb from './src/infrastructure/config/mongodb.connection';
 import routes from './src/infrastructure/rest/routes';
+import UserMongoDao from './src/infrastructure/persistence/dao/userMongoDao';
 
 const app = express();
 
@@ -17,7 +18,7 @@ connectDb(mongoose, coreConfig, {
 });
 
 // server config and launch
-serverConfig(app, coreConfig);
+serverConfig(app, coreConfig, new UserMongoDao());
 
 // routes config and launch
 routes(app);

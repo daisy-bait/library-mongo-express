@@ -1,7 +1,6 @@
 import { Express } from "express";
 import AuthRouter from "./authRouter";
 import AuthControllerImpl from "../../../application/controller/authControllerImpl";
-import UserControllerImpl from "../../../application/controller/userControllerImpl";
 import UserMongoDao from "../../persistence/dao/userMongoDao";
 
 export default function routes(app: Express): void {
