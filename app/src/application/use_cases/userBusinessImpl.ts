@@ -4,14 +4,14 @@ import UserEntity from "../../domain/entities/userEntity";
 import NotFoundException from "../../domain/exceptions/notFoundException";
 
 export default class UserBusinessImpl implements UserBusinessUseCases {
-    constructor(private userDAO: UserDAO) { };
+    constructor(private readonly userDAO: UserDAO) { };
 
     async registerUser(userEntity: UserEntity): Promise<UserEntity> {
         return this.userDAO.save(userEntity);
     }
 
     async update(userEntity: UserEntity, userId: string): Promise<UserEntity> {
-        if (!userEntity.id) { userEntity.id = userId; }
+        userEntity.id ??= userId;
         if (userEntity.id !== userId) {
             throw new Error(`Value Mismatch: Rest User ID → ${userId} isn't equal to Body User ID → ${userEntity.id}`);
         }

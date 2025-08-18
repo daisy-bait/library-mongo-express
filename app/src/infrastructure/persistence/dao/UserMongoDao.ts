@@ -4,7 +4,7 @@ import { userModel } from "../model/UserModel";
 import UserPersistenceMapper from "../mapper/UserPersistenceMapper";
 
 export default class UserMongoDao implements UserDAO {
-    private mapper: UserPersistenceMapper;
+    private readonly mapper: UserPersistenceMapper;
 
     constructor() {
         this.mapper = new UserPersistenceMapper();
