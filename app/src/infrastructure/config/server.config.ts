@@ -1,7 +1,7 @@
 import { Express } from 'express';
 import coreConfig from './core.config';
 import UserDataLoader from './loaders/userDataLoader';
-import UserMongoDao from '../persistence/dao/UserMongoDao';
+import UserMongoDao from '../persistence/dao/userMongoDao';
 
 export const serverConfig =  ( app: Express, config: typeof coreConfig): void => {
     try {

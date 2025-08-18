@@ -6,11 +6,11 @@ interface MongoOptions extends ConnectOptions {
   socketTimeoutMS: number,
 }
 
-export const connectDb = async (
+export default async function connectDb(
   client: Mongoose,
   config: typeof coreConfig,
   options: MongoOptions
-): Promise<void> => {
+): Promise<void> {
   try {
     await client.connect(config.mongo.uri, options);
     console.info('MONGODB INITIAL CONNETION SUCCESFUL');
