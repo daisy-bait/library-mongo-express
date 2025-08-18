@@ -3,7 +3,7 @@ import UserDAO from "../../domain/contracts/persistence/UserDAO";
 import UserEntity from "../../domain/entities/userEntity";
 import NotFoundException from "../../domain/exceptions/notFoundException";
 
-export default class UserBusinessImpl implements UserBusinessUseCases {
+export default class UserControllerImpl implements UserBusinessUseCases {
     constructor(private readonly userDAO: UserDAO) { };
 
     async registerUser(userEntity: UserEntity): Promise<UserEntity> {
@@ -35,6 +35,7 @@ export default class UserBusinessImpl implements UserBusinessUseCases {
         if (!optionalUser) { throw new NotFoundException(); }
         return optionalUser;
     }
+
     async listAllUsers(): Promise<UserEntity[]> {
         return await this.userDAO.selectAll();
     }

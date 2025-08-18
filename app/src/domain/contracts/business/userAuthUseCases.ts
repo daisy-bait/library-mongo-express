@@ -1,10 +1,12 @@
 import UserEntity from "../../entities/userEntity";
 
 interface UserAuthUseCases {
-    login(): UserEntity;
-    retrieveAuthUsername(): string;
+    login(username: string, password: string): Promise<{ resolvedUsername: string, resolvedPassword: string }>;
     retrieveAuthId(): string;
     retrieveAuthRoles(): string[];
+
+    encryptPassword(password: string): string;
+    comparePasswords(password: string, hashedPassword: string): boolean;
 }
 
 export default UserAuthUseCases;
