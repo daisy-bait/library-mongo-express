@@ -1,6 +1,0 @@
-projectKey=library-mongo-express
-serverUrl=http://localhost:9000
-serverVersion=25.7.0.110598
-dashboardUrl=http://localhost:9000/dashboard?id=library-mongo-express
-ceTaskId=e1d2100e-eab6-4449-854d-602ad619a7d8
-ceTaskUrl=http://localhost:9000/api/ce/task?id=e1d2100e-eab6-4449-854d-602ad619a7d8
