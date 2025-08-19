@@ -26,7 +26,6 @@ export default class AuthControllerImpl implements UserAuthUseCases {
     }
 
     async retrieveAuthRoles(username: string): Promise<string[]> {
-        console.log(username);
         return (await this.retrieveUserDetails(username)).roles;
     }
 

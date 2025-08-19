@@ -5,12 +5,13 @@ import UserAuthUseCases from "../../../domain/contracts/business/userAuthUseCase
 import BadCredentialsException from "../../../domain/exceptions/badCredentialsException";
 import AuthControllerImpl from "../../../application/controller/authControllerImpl";
 import UserMongoDao from "../../persistence/dao/userMongoDao";
+import AuthenticatedRequest from "../../../common/security/authenticatedRequest";
 
 export default function authMiddleware(authController: UserAuthUseCases = new AuthControllerImpl(new UserMongoDao())): ((req: Request, res: Response, next: NextFunction) => Promise<void>) {
     // Because Express wait the middleware returns something with the Express Middlewares Sign, i.e. (req, res, next)
     // And in this Middleware we need inject an mandatory AuthContollerImpl.
     return async (
-        request: Request,
+        request: AuthenticatedRequest,
         response: Response,
         next: NextFunction,
     ): Promise<void> => {
@@ -25,7 +26,7 @@ export default function authMiddleware(authController: UserAuthUseCases = new Au
             throw new BadCredentialsException();
         }
 
-        (request as any).user = {
+        request.user = {
             username: userDetails.username,
             roles: userDetails.roles,
         }
