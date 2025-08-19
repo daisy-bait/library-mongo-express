@@ -1,13 +1,9 @@
-import IError from "../../common/errorInterface";
+import Exception from "../../common/exceptions/exception";
 
-export default class NotAuthenticatedException extends Error implements IError {
-    public name = 'NotAuthorizedException';
-    public httpStatus = 401;
-    public timestamp = new Date();
+export default class NotAuthenticatedException extends Exception{
 
     constructor(public message: string = 'No Authenticated User') {
-        super(message);
-        Object.setPrototypeOf(this, NotAuthenticatedException.prototype);
+        super(message, 401);
     }
 
 }

@@ -1,13 +1,9 @@
-import IError from "../../common/errorInterface";
+import Exception from "../../common/exceptions/exception";
 
-export default class BadCredentialsException extends Error implements IError {
-    public name = 'BadCredentialsException';
-    public httpStatus = 401;
-    public timestamp = new Date();
+export default class BadCredentialsException extends Exception  {
 
     constructor(public message: string = 'Invalid username or password') {
-        super(message);
-        Object.setPrototypeOf(this, BadCredentialsException.prototype);
+        super(message, 401);
     }
 
 }

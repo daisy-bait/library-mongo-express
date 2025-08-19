@@ -7,6 +7,9 @@ import connectDb from './src/infrastructure/config/mongodb.connection';
 import routes from './src/infrastructure/rest/routes';
 import UserMongoDao from './src/infrastructure/persistence/dao/userMongoDao';
 
+// Handler
+import ExceptionHandlingMiddleware from './src/infrastructure/rest/middlewares/exceptionHandlingMiddleware';
+
 const app = express();
 
 // express.js config
@@ -22,3 +25,6 @@ serverConfig(app, coreConfig, new UserMongoDao());
 
 // routes config and launch
 routes(app);
+
+// exception handling middleware
+app.use(ExceptionHandlingMiddleware)

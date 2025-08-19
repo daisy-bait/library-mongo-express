@@ -1,16 +1,13 @@
-import IError from "../../common/errorInterface";
+import IError from "../../common/exceptions/errorInterface";
+import Exception from "../../common/exceptions/exception";
 
-export default class ValidationException extends Error implements IError {
-    public name = 'ValidationException';
-    public httpStatus = 400;
-    public timestamp = new Date();
+export default class ValidationException extends Exception {
 
     constructor(
         public message: string = 'Provided Data is invalid',
         public details: { field: string, message: string }[]
     ) {
-        super(message);
-        Object.setPrototypeOf(this, ValidationException.prototype);
+        super(message, 400);
     }
 
 }

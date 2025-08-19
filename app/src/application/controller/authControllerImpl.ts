@@ -12,10 +12,6 @@ export default class AuthControllerImpl implements UserAuthUseCases {
     async login(username: string, password: string): Promise<{ resolvedUsername: string, resolvedPassword: string }> {
         const userDetails = await this.userDAO.selectByUsername(username);
 
-        if (userDetails) {
-            console.log(this.comparePasswords(password, userDetails.password));
-        }
-
         if (!userDetails || !this.comparePasswords(password, userDetails.password)) {
             throw new BadCredentialsException();
         }

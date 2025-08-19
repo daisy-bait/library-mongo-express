@@ -1,9 +1,9 @@
 
 interface IError {
     name: string
-    message: string
+    customMessage: string
     httpStatus: number
-    timestamp: Date
+    timestamp: string,
     details?: unknown
 }
 

@@ -1,13 +1,10 @@
-import IError from "../../common/errorInterface";
+import IError from "../../common/exceptions/errorInterface";
+import Exception from "../../common/exceptions/exception";
 
-export default class NotFoundException extends Error implements IError {
-    public name = 'NotFoundException';
-    public httpStatus = 404;
-    public timestamp = new Date();
+export default class NotFoundException extends Exception {
 
     constructor(public message = 'Record Not Found') {
-        super(message);
-        Object.setPrototypeOf(this, NotFoundException.prototype);
+        super(message, 404);
     }
 
 }
