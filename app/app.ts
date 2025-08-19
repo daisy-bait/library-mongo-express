@@ -8,7 +8,7 @@ import routes from './src/infrastructure/rest/routes';
 import UserMongoDao from './src/infrastructure/persistence/dao/userMongoDao';
 
 // Handler
-import ExceptionHandlingMiddleware from './src/infrastructure/rest/middlewares/exceptionHandlingMiddleware';
+import exceptionHandlingMiddleware from './src/infrastructure/rest/middlewares/exceptionHandlingMiddleware';
 
 const app = express();
 
@@ -27,4 +27,4 @@ serverConfig(app, coreConfig, new UserMongoDao());
 routes(app);
 
 // exception handling middleware
-app.use(ExceptionHandlingMiddleware)
+app.use(exceptionHandlingMiddleware)

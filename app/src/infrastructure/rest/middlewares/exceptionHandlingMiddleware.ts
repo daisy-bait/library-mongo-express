@@ -1,9 +1,8 @@
 import { Request, Response, NextFunction } from "express";
-import IError from "../../../common/exceptions/errorInterface";
 import Exception from "../../../common/exceptions/exception";
 import timeFormat from "../../../common/utils/timeFormat";
 
-export default function ExceptionHandlingMiddleware(
+export default function exceptionHandlingMiddleware(
     exception: Exception & Error,
     request: Request,
     response: Response,
