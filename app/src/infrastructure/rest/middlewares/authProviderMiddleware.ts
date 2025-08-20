@@ -20,16 +20,13 @@ export default function authMiddleware(authController: UserAuthUseCases = new Au
 
         const { decodedUsername, decodedPassword } = decodeBasicAuth(authHeader);
 
-        const userDetails = await authController.retrieveUserDetails(decodedUsername);
+        const userDetails = await authController.retrieveUserDetailsByUsername(decodedUsername);
 
         if (!authController.comparePasswords(decodedPassword, userDetails.password)) {
             throw new BadCredentialsException();
         }
 
-        request.user = {
-            username: userDetails.username,
-            roles: userDetails.roles,
-        }
+        request.user = userDetails;
 
         next();
     }

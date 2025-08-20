@@ -1,10 +1,8 @@
 import { Request } from "express"
+import UserDetails from "./userDetails";
 
 interface AuthenticatedRequest extends Request {
-    user?: {
-        username: string,
-        roles: string[],
-    }
+    user?: UserDetails;
 }
 
 export default AuthenticatedRequest;

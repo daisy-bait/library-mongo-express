@@ -3,13 +3,14 @@ import bcrypt from "bcrypt";
 import coreConfig from "../../infrastructure/config/core.config";
 import BadCredentialsException from "../../domain/exceptions/badCredentialsException";
 import UserDAO from "../../domain/contracts/persistence/UserDAO";
-import UserEntity from "../../domain/entities/userEntity";
+import UserDetails from "../../common/security/userDetails";
+import NotAuthenticatedException from "../../domain/exceptions/notAuthenticatedException";
 
 export default class AuthControllerImpl implements UserAuthUseCases {
     constructor(private readonly userDAO: UserDAO) { }
 
     async login(username: string, password: string): Promise<{ resolvedUsername: string, resolvedPassword: string }> {
-        const userDetails = await this.retrieveUserDetails(username);
+        const userDetails = await this.retrieveUserDetailsByUsername(username);
 
         if (!this.comparePasswords(password, userDetails.password)) {
             throw new BadCredentialsException();
@@ -21,23 +22,22 @@ export default class AuthControllerImpl implements UserAuthUseCases {
         };
     }
 
-    retrieveAuthId(): string {
-        throw new Error("Method not implemented.");
+    async retrieveAuthId(user: UserDetails): Promise<string> {
+        const authUser = await this.userDAO.selectByUsername(user.username);
+        if (!authUser) { throw new NotAuthenticatedException() }
+        return authUser.id as string;
     }
 
-    async retrieveAuthRoles(username: string): Promise<string[]> {
-        return (await this.retrieveUserDetails(username)).roles;
+    async retrieveAuthRoles(user: UserDetails): Promise<string[]> {
+        return user.authorities;
     }
 
-    retrieveAuthUserDetails(req: Request) {
-    }
-
-    async retrieveUserDetails(username: string): Promise<UserEntity> {
+    async retrieveUserDetailsByUsername(username: string): Promise<UserDetails> {
         const userDetails = await this.userDAO.selectByUsername(username);
         if (!userDetails) {
             throw new BadCredentialsException();
         }
-        return userDetails;
+        return new UserDetails(userDetails.username, userDetails.password, userDetails.roles);
     }
 
     encryptPassword(password: string): string {

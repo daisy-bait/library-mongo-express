@@ -1,7 +1,7 @@
 import { Router } from "express";
 import UserAuthUseCases from "../../../domain/contracts/business/userAuthUseCases";
 import authMiddleware from "../middlewares/authProviderMiddleware";
-import AuthenticatedRequest from "../../../common/security/authenticatedRequest";
+import AuthReq from "../../../common/security/authenticatedRequest";
 
 export default class AuthRouter {
     private readonly router: Router;
@@ -21,11 +21,18 @@ export default class AuthRouter {
         );
         this.router.post('/roles',
             authMiddleware(),
-            async (req: AuthenticatedRequest, res) => {
-                const resolvedRoles = await this.authController.retrieveAuthRoles(req.user?.username as string);
+            async (req: AuthReq, res) => {
+                const resolvedRoles = await this.authController.retrieveAuthRoles(req.user!);
                 res.status(200).json(resolvedRoles);
             }
-        )
+        );
+        this.router.post('/id',
+            authMiddleware(),
+            async (req: AuthReq, res) => {
+                const resolvedId = await this.authController.retrieveAuthId(req.user!)
+                res.status(200).json(resolvedId);
+            }
+        );
     }
 
     public getRouter(): Router {
